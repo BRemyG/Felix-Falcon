@@ -1,0 +1,218 @@
+Enter file contents here// Here we create the window
+/** Queswindow.java, Wrongans.java and Quesgen.java(which is included and modified within this class, thus
+not a funtional part) are the class file that work for this software. The soft ware is designed to generate
+numbers and operands and formulate a question, timing you 20 seconds and storing correct answeres
+to display in a seperate window at the end of 5 minutes or 15 questions. Timer class too is another
+funtional class that wsa seperately built to be incorporated into this design.
+This little project was to take 48hrs from conception to product. However, at the 60th hour,
+I decided to move on with studying, assuming that I probably do not have enough material to work with.
+*/
+
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.*;
+import javax.swing.border.*;
+import java.awt.event.*;
+import javax.swing.Timer.*;
+
+public class Queswindow extends JFrame {
+    
+static String[] wroongans = new String[6];
+static String questiononpanel;
+static p0 panl = new p0();
+int message = 21;
+
+public Queswindow () {
+add(panl);
+}
+
+public Queswindow(p0 pre) {
+    add(pre);
+}
+
+public static void main(String[] args) {
+
+static Queswindow frame = new Queswindow();
+frame.setTitle("OutSmart your best!");
+frame.setLocationRelativeTo(null);
+frame.setSize (500,400);
+//frame.pack(); // replaces setSize
+frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+frame.setVisible(true);
+
+}
+
+public static class p0 extends JPanel {
+public p0(){
+generatequestion();
+  
+setLayout(new BorderLayout());
+JPanel p = new JPanel();
+p.setLayout(new GridLayout(2,1));
+JPanel p1 = new JPanel();
+p1.setLayout(new GridLayout(1,2));
+JLabel lbl1 = new JLabel();
+lbl1.setBorder(new TitledBorder("Name or Score"));
+p1.add(lbl1);
+JLabel lbl2 = new JLabel("8");
+lbl2.setBorder(new TitledBorder("Time"));
+lbl2.setFont(new Font("SansSerif", Font.BOLD, 20));
+p1.add(lbl2);
+JPanel p2 = new JPanel();
+p2.setBorder(new TitledBorder("Question"));
+JTextField jtfd = new JTextField();
+jtfd.setText(questiononpanel);
+jtfd.setEditable(false);
+jtfd.setFont(new Font("SansSerif", Font.BOLD, 20));
+p2.add(jtfd);
+
+JPanel p3 = new JPanel();
+p3.setLayout (new GridLayout(3,2));
+p3.setBorder(new TitledBorder("Answer choices"));
+
+JRadioButton jrb1 = new JRadioButton(wroongans[0]);
+JRadioButton jrb2 = new JRadioButton(wroongans[1]);
+JRadioButton jrb3 = new JRadioButton(wroongans[2]);
+JRadioButton jrb4 = new JRadioButton(wroongans[3]);
+JRadioButton jrb5 = new JRadioButton(wroongans[4]);
+JRadioButton jrb6 = new JRadioButton(wroongans[5]);
+
+p3.add(jrb1);
+p3.add(jrb2);
+p3.add(jrb3);
+p3.add(jrb4);
+p3.add(jrb5);
+p3.add(jrb6);
+
+JPanel p4 = new JPanel(new GridLayout(1,2));
+JButton btn1 = new JButton("Add 20secs");
+JButton btn2 = new JButton("Next >>");
+btn2.addActionListener(new NextListener());
+p4.add(btn1);
+p4.add(btn2);
+
+
+
+ButtonGroup group = new ButtonGroup();
+group.add(jrb1);
+group.add(jrb2);
+group.add(jrb3);
+group.add(jrb4);
+group.add(jrb5);
+group.add(jrb6);
+
+p.add(p2);
+p.add(p3);
+add(p,BorderLayout.CENTER);
+add(p1, BorderLayout.NORTH);
+add(p4, BorderLayout.SOUTH);
+
+System.out.println(" end of constructor");
+
+}
+}
+
+
+static int generaterandomnos() {
+int i = (int)((Math.random()*1000 +1));
+return i;
+}
+
+static int chooseoperandquest() {
+int j = (int)(Math.random()*4 +1);
+return j;
+}
+
+
+static void generatequestion() {
+    
+int cs = chooseoperandquest();
+int a = generaterandomnos();
+int b = generaterandomnos();
+double[] prnn = new double[6];
+Wrongans petit = new Wrongans();
+
+switch (cs) {
+
+case 1:
+    
+int aa = (int)a/10;
+int bb = (int)b/10;
+int w = aa*bb;
+System.out.println("Multiply\n    " + aa + " * " + bb + "       ...");
+questiononpanel =("Multiply\n     " + aa + " * " + bb + "       ...");
+prnn = petit.wrongansr(cs,aa,bb);
+for (int kl = 0; kl<=prnn.length-1; kl++){
+    System.out.println ( (char)((int)('a')+ kl) +" )   " + prnn[kl] + "      ...");
+}
+
+for (int i = 0; i<=5; i++){
+wroongans[i] = String.valueOf(prnn[i]);
+}
+break;
+
+case 2: 
+int x = a+b;
+System.out.println("Add\n     " + a + " + " + b + "     ...");
+questiononpanel = ("Add\n     " + a + " + " + b + "     ...");
+prnn = petit.wrongansr(cs,a,b);
+for (int kl = 0; kl<=prnn.length-1; kl++){
+    System.out.println ( (char)((int)('a')+ kl) +" )   " + prnn[kl] + "      ...");
+}
+
+for (int i = 0; i<=5; i++){
+wroongans[i] = String.valueOf(prnn[i]);
+}
+break;
+
+case 3: 
+int y = a-b;
+System.out.println("Subtract\n    " + a + " - " + b + "     ...");
+questiononpanel = ("Subtract\n    " + a + " - " + b + "     ...");
+prnn = petit.wrongansr(cs,a,b);
+for (int kl = 0; kl<=prnn.length-1; kl++){
+    System.out.println ( (char)((int)('a')+ kl) +" )   " + prnn[kl] + "    ...");
+}
+
+for (int i = 0; i<=5; i++){
+wroongans[i] = String.valueOf(prnn[i]);
+}
+break;
+
+case 4:
+int f = generaterandomnos();
+int g = generaterandomnos();
+while ( f < 14*g){
+f = generaterandomnos();
+g = generaterandomnos();
+double c = f/g;
+}
+System.out.println("Divide\n  " + f + " / " + g + "     ...");
+questiononpanel =("Divide\n   " + f + " / " + g + "     ...");
+prnn = petit.wrongansr(cs,f,g);
+for (int kl = 0; kl<=prnn.length-1; kl++){
+    System.out.println ( (char)((int)('a')+ kl) +" )   " + prnn[kl] + "      ...");
+}
+
+for (int i = 0; i<=5; i++){
+wroongans[i] = String.valueOf(prnn[i]);
+}
+break;
+}
+
+}
+
+
+
+static class NextListener implements ActionListener {
+    public void actionPerformed(ActionEvent e) {
+        
+       p0 panel = new p0();
+       Queswindow frame = new Queswindow(panel);
+       frame.repaint();
+    }
+}
+
+
+
